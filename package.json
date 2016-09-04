@@ -1,6 +1,6 @@
 {
   "name": "file-banner",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Automatic add banner for your files",
   "main": "lib/index.js",
   "scripts": {
