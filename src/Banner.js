@@ -19,7 +19,7 @@ export default class {
     const { root, ignore } = this.options
     if (!root) return this.error('No rootdir provided, use `file-banner rootdir` instead.')
     if (ignore) {
-      this.ignore = new RegExp(ignore)
+      this.ignore = new RegExp(ignore, 'g')
     }
     try {
       this.banner = template(fs.readFileSync(this.BANNER, 'utf8'))
@@ -52,12 +52,15 @@ export default class {
   isIgnored(file) {
     file = file.split(path.sep)
     file.shift()
-    return this.ignore.test(file.join(path.sep))
+    file = file.join(path.sep)
+    const ignore = this.ignore.test(file)
+    this.ignore.lastIndex = 0
+    return ignore
   }
 
   injectBanner(file) {
     let content = fs.readFileSync(file, 'utf-8')
-    content = content.replace(/^([^]*?\*\/[\s\r\n]*)?/, this.banner({ file }) + '\r\n\r\n')
+    content = content.replace(/^([\s\r\n]*(\/\*\*[^]*?\*\/)?[\s\r\n]*)?/, this.banner({ file }) + '\r\n\r\n')
     fs.writeFileSync(file, content)
     console.log(colors.green('inject') + ' ' + file)
   }
