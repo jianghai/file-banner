@@ -60,7 +60,7 @@ export default class {
 
   injectBanner(file) {
     let content = fs.readFileSync(file, 'utf-8')
-    content = content.replace(/^([\s\r\n]*(\/\*\*[^]*?\*\/)?[\s\r\n]*)?/, this.banner({ file }) + '\r\n\r\n')
+    content = content.replace(/^([\s\r\n]*(\/\*\*[^]*?\*\/)?[\s\r\n]*)?/, this.banner({ file }) + '\n\n')
     fs.writeFileSync(file, content)
     console.log(colors.green('inject') + ' ' + file)
   }
